@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f4ec">
+  <title>Ударение — тренажёр</title>
+  <style>
+    :root{--ink:#25291f;--muted:#7b8074;--paper:#f7f4ec;--card:#fffefa;--line:#e8e4d9;--green:#3b6248;--green-soft:#eaf1e7;--red:#a34d3c;--red-soft:#f8eae5;--gold:#c79544;--shadow:0 20px 60px #26331c12}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+    button{font:inherit}.shell{max-width:1120px;margin:auto;padding:34px 28px 56px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:42px}.brand{display:flex;align-items:center;gap:12px;font-weight:750;letter-spacing:-.03em}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--green);color:white;font-family:Georgia,serif;font-size:21px}.top-note{color:var(--muted);font-size:13px}
+    .intro{margin-bottom:28px}.eyebrow{color:var(--green);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.intro h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(36px,5vw,56px);letter-spacing:-.045em;line-height:1.03;margin:10px 0 10px}.intro p{color:var(--muted);margin:0;font-size:15px}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:22px;align-items:start}.main-card,.side-card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.main-card{padding:26px 30px 30px}.progress-row{display:flex;align-items:center;justify-content:space-between;gap:18px;color:var(--muted);font-size:12px}.progress{height:5px;background:#efede5;border-radius:9px;overflow:hidden;margin:12px 0 28px}.progress>span{display:block;width:100%;height:100%;background:var(--green);transform-origin:left;transition:transform .25s ease}.counter{font-variant-numeric:tabular-nums}.word-area{padding:28px 0 30px;text-align:center;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center}.prompt-label{color:var(--muted);font-size:12px;margin-bottom:14px}.word{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(40px,7vw,66px);letter-spacing:-.035em;line-height:1.1}.word .vowel{color:var(--green);position:relative}.word .vowel::after{content:"";position:absolute;left:12%;right:12%;bottom:-5px;height:2px;background:#93aa8d;border-radius:2px}.word .vowel.chosen{color:var(--red)}.word .vowel.correct{color:var(--green)}
+    .choose-label{margin:0 0 14px;text-align:center;color:#666b5f;font-size:13px}.choices{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}.choice{min-width:64px;padding:12px 15px;border:1px solid var(--line);border-radius:13px;background:white;color:var(--ink);cursor:pointer;font-weight:700;transition:.16s ease}.choice:hover:not(:disabled){border-color:#8ca18a;background:#f5f8f2;transform:translateY(-1px)}.choice small{display:block;font-weight:500;color:var(--muted);font-size:10px;margin-top:2px}.choice:disabled{cursor:default;opacity:.75}.choice.selected{border-color:var(--red);background:var(--red-soft);color:var(--red)}.choice.answer{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+    .feedback{min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:14px;font-weight:650}.feedback.good{color:var(--green)}.feedback.bad{color:var(--red)}.feedback span{font-weight:450;color:var(--muted);margin-left:6px}.actions{display:flex;justify-content:center}.next{padding:13px 22px;border:0;border-radius:12px;background:var(--green);color:white;font-weight:700;cursor:pointer;box-shadow:0 5px 12px #3b62482b;transition:.16s}.next:hover{background:#2e523b;transform:translateY(-1px)}.next:disabled{background:#b8c4b4;box-shadow:none;cursor:not-allowed;transform:none}.hint{text-align:center;font-size:11px;color:#96998e;margin:12px 0 0}
+    .side{display:grid;gap:14px}.side-card{padding:20px}.side-title{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:750;margin:0 0 14px}.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.score{padding:13px 12px;border-radius:13px;background:#f7f6f0}.score strong{display:block;font-size:26px;line-height:1.1;font-weight:650;font-variant-numeric:tabular-nums}.score span{font-size:11px;color:var(--muted)}.score.correct strong{color:var(--green)}.score.wrong strong{color:var(--red)}.accuracy{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:var(--muted);font-size:12px}.accuracy b{color:var(--ink);font-size:14px}.mistakes-empty{font-size:13px;color:var(--muted);line-height:1.5;margin:0}.mistakes-list{display:grid;gap:9px;max-height:255px;overflow:auto}.mistake{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-bottom:9px;border-bottom:1px solid #efede6;font-size:13px}.mistake:last-child{border:0;padding:0}.mistake-word{font-family:Georgia,serif;font-size:16px}.mistake-meta{color:var(--muted);font-size:11px;text-align:right}.mistake-meta b{color:var(--red);font-size:12px}.reset{width:100%;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:11px;padding:10px;cursor:pointer;font-size:12px}.reset:hover{color:var(--ink);border-color:#b9b7ac}.footer{display:flex;justify-content:space-between;align-items:center;color:#989a90;font-size:11px;margin-top:20px;padding:0 4px}.toast{position:fixed;inset:auto 18px 18px;display:none;justify-content:center;pointer-events:none}.toast span{background:#292d25;color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;box-shadow:var(--shadow)}
+    .word .vowel{color:inherit}.word .vowel::after{display:none}.word .vowel.chosen{color:var(--red);text-decoration:overline;text-decoration-thickness:2px}.word .vowel.correct{color:var(--green);text-decoration:overline;text-decoration-thickness:2px}
+    .profile-button{display:flex;align-items:center;gap:10px;padding:7px 12px 7px 7px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);cursor:pointer}.profile-avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:750}.profile-caption{text-align:left}.profile-caption strong{display:block;font-size:12px}.profile-caption small{color:var(--muted);font-size:10px}.profile-dialog{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:18px;background:#25291f88;backdrop-filter:blur(3px)}.profile-dialog.open{display:grid}.profile-panel{width:min(100%,430px);padding:26px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 28px 90px #10150f45}.profile-panel h2{font-family:Georgia,serif;font-size:29px;font-weight:500;margin:0 0 7px}.profile-panel>p{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 17px}.profile-list{display:grid;gap:8px;max-height:220px;overflow:auto;margin-bottom:18px}.profile-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:white;text-align:left;cursor:pointer}.profile-item:hover,.profile-item.active{border-color:#91a58e;background:#f4f7f1}.profile-item strong{font-size:13px}.profile-item small{color:var(--muted);font-size:11px}.profile-new{display:flex;gap:8px}.profile-new input{min-width:0;flex:1;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:inherit;font-size:13px;outline:none}.profile-new input:focus{border-color:#91a58e}.profile-create{border:0;border-radius:11px;background:var(--green);color:white;padding:0 15px;font-weight:700;cursor:pointer}.profile-error{min-height:18px;margin:8px 0 0!important;color:var(--red)!important;font-size:12px!important}
+    .tabs{display:flex;gap:7px;margin:-6px 0 18px;padding:5px;width:max-content;border:1px solid var(--line);border-radius:13px;background:#efede5}.tab{border:0;border-radius:9px;padding:9px 15px;background:transparent;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer}.tab.active{background:var(--card);color:var(--ink);box-shadow:0 2px 6px #26331c10}.admin-view{display:none}.admin-view.active{display:block}.admin-heading{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:7px 0 18px}.admin-heading h2{font-family:Georgia,serif;font-weight:500;font-size:32px;margin:0}.admin-heading p{font-size:12px;color:var(--muted);margin:6px 0 0}.admin-summary{display:flex;gap:10px;margin-bottom:16px}.admin-stat{min-width:160px;padding:15px 18px;border:1px solid var(--line);border-radius:15px;background:var(--card)}.admin-stat strong{display:block;font-size:24px;font-weight:650}.admin-stat span{font-size:11px;color:var(--muted)}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--shadow)}.user-table{width:100%;border-collapse:collapse;min-width:690px}.user-table th,.user-table td{padding:13px 15px;text-align:left;border-bottom:1px solid #efede6;font-size:12px}.user-table th{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:750;background:#fbfaf5}.user-table tbody tr:last-child td{border-bottom:0}.user-table td:first-child{font-weight:700}.user-tag{display:inline-block;padding:4px 7px;border-radius:20px;background:var(--green-soft);color:var(--green);font-size:10px}.admin-empty{padding:22px;color:var(--muted);text-align:center;font-size:13px}.admin-footnote{font-size:11px;color:var(--muted);margin:12px 2px}
+    @media(max-width:780px){.shell{padding:22px 16px 36px}.top{margin-bottom:32px}.top-note{display:none}.layout{grid-template-columns:1fr}.main-card{padding:22px 18px 24px}.side{grid-template-columns:1fr 1fr}.side-card{padding:17px}.mistakes-card{grid-column:1/-1}.mistakes-list{max-height:190px}.word-area{min-height:150px}}
+    @media(max-width:480px){.side{grid-template-columns:1fr}.mistakes-card{grid-column:auto}.intro p{font-size:14px}.main-card{border-radius:18px}.side-card{border-radius:17px}.footer{gap:12px;align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top"><div class="brand"><span class="brand-mark">ё</span><span>Слово за словом</span></div><button class="profile-button" id="profile-button" aria-label="Выбрать профиль"><span class="profile-avatar" id="profile-avatar">?</span><span class="profile-caption"><strong id="profile-name">Выбрать профиль</strong><small>личный прогресс</small></span></button></header>
+    <section class="intro"><div class="eyebrow">Практика ударений</div><h1>Куда поставить<br>ударение?</h1><p>Выбирай ударную гласную. Вопросы идут вперемешку и без конца.</p></section>
+    <nav class="tabs" aria-label="Разделы сайта"><button class="tab active" id="tab-trainer" type="button">Тренажёр</button><button class="tab" id="tab-admin" type="button">Админка</button></nav>
+    <main class="layout" id="trainer-view">
+      <section class="main-card" aria-label="Тренажёр ударений">
+        <div class="progress-row"><span id="round-label">Раунд 1 · слова перемешаны</span><span class="counter" id="seen-label">Отвечено: 0</span></div>
+        <div class="progress"><span id="progress-bar"></span></div>
+        <div class="word-area"><div class="prompt-label">Выбери гласную, на которую падает ударение</div><div class="word" id="word" aria-live="polite"></div></div>
+        <p class="choose-label">Нажми на нужную гласную в слове</p>
+        <div class="choices" id="choices"></div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+        <div class="actions"><button class="next" id="next" disabled>Ответить</button></div>
+        <p class="hint" id="hint">Пропустить нельзя — выбери гласную, чтобы продолжить.</p>
+      </section>
+      <aside class="side">
+        <section class="side-card"><h2 class="side-title">Твой результат</h2><div class="score-grid"><div class="score correct"><strong id="correct-count">0</strong><span>правильно</span></div><div class="score wrong"><strong id="wrong-count">0</strong><span>ошибок</span></div></div><div class="accuracy"><span>Точность</span><b id="accuracy">—</b></div></section>
+        <section class="side-card mistakes-card"><h2 class="side-title">Разбор ошибок</h2><p class="mistakes-empty" id="empty-mistakes">Ошибки появятся здесь. Повторяй тренировку — и список станет короче.</p><div class="mistakes-list" id="mistakes-list"></div></section>
+        <button class="reset" id="reset">Начать заново</button>
+      </aside>
+    </main>
+    <section class="admin-view" id="admin-view"><div class="admin-heading"><div><h2>Пользователи</h2><p>Профили и результаты тренировок</p></div></div><div class="admin-summary"><div class="admin-stat"><strong id="admin-user-count">0</strong><span>профилей на этом устройстве</span></div><div class="admin-stat"><strong id="admin-answer-count">0</strong><span>ответов всего</span></div></div><div class="table-wrap"><table class="user-table"><thead><tr><th>Профиль</th><th>Статус</th><th>Создан</th><th>Ответы</th><th>Ошибки</th><th>Точность</th><th>Последняя активность</th></tr></thead><tbody id="admin-users"></tbody></table><div class="admin-empty" id="admin-empty" hidden>Пока нет профилей.</div></div><p class="admin-footnote">Список формируется из профилей в этом браузере. Он не показывает посетителей с других устройств.</p></section>
+    <footer class="footer"><span>Личные результаты хранятся в браузере на этом устройстве.</span><span>Каждый новый раунд — в другом порядке</span></footer>
+  </div>
+  <div class="toast" id="toast"><span></span></div>
+  <div class="profile-dialog" id="profile-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-title"><div class="profile-panel"><h2 id="profile-title">Кто тренируется?</h2><p>Выбери профиль или создай новый. У каждого профиля свои счёт и разбор ошибок. Профили сохраняются только в этом браузере.</p><div class="profile-list" id="profile-list"></div><form class="profile-new" id="profile-form"><input id="profile-input" maxlength="32" autocomplete="name" placeholder="Имя или уникальный псевдоним" aria-label="Имя нового профиля"><button class="profile-create" type="submit">Создать</button></form><p class="profile-error" id="profile-error"></p></div></div>
+  <script>
+    // The uppercase vowel in the source list marks the stress. Each form is its own question.
+    const words = [
+      ["аэропорты",5],["аэропорт",5],["банты",1],["бант",1],
+      ["бороду",1],["борода",5],["бухгалтеров",4],["бухгалтер",4],
+      ["вероисповедание",9],["водопровод",8],["газопровод",8],["гражданство",5],
+      ["дефис",3],["дешевизна",5],["диспансер",7],["договорённость",7],
+      ["документ",5],["досуг",3],["еретик",4],["жалюзи",5],
+      ["значимость",2],["иксы",0],["икс",0],["каталог",5],
+      ["квартал",5],["километр",5],["конусов",1],["конус",1],
+      ["корысть",3],["краны",2],["кран",2],["кремень",4],
+      ["кремня",5],["лекторов",1],["лектор",1],["локтя",1],
+      ["локоть",1],["локтей",4],["лыжня",4],["местностей",1],["местность",1]
+    ];
+    const vowels = "аеёиоуыэюя";
+    const STORAGE_KEY = "slovo-za-slovom-profiles-v1";
+    let stored = {profiles:[],activeId:null};
+    try { stored = JSON.parse(localStorage.getItem(STORAGE_KEY)) || stored; } catch {}
+    let profiles = Array.isArray(stored.profiles) ? stored.profiles : [];
+    let activeProfileId = stored.activeId || null;
+    const invitedName = "Федоров Егор P.";
+    if(!profiles.some(p=>p.name.toLocaleLowerCase("ru-RU")===invitedName.toLocaleLowerCase("ru-RU"))){
+      profiles.push({id:"p-invited-egor-fedorov",name:invitedName,correct:0,wrong:0,mistakes:[],createdAt:new Date().toISOString(),lastActivity:null,status:"Добавлен"});
+    }
+    let deck = [], index = 0, current = null, selected = null, answered = false;
+    let correct = 0, wrong = 0;
+    const mistakeCounts = new Map();
+    const $ = id => document.getElementById(id);
+    function shuffle(list){
+      const a = [...list];
+      for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+      return a;
+    }
+    function nextDeck(){
+      deck = shuffle(words.map((_,i)=>i));
+      // Keep the stream feeling random without repeating the last question at the boundary.
+      if(current && deck[0]===current.id && deck.length>1) [deck[0],deck[1]]=[deck[1],deck[0]];
+      index = 0;
+    }
+    function showQuestion(){
+      if(index>=deck.length) nextDeck();
+      current = {id:deck[index],word:words[deck[index]][0],stress:words[deck[index]][1]};
+      index++; selected=null; answered=false;
+      $("word").innerHTML=[...current.word].map((ch,i)=>vowels.includes(ch)?`<span class="vowel" data-index="${i}">${ch}</span>`:ch).join("");
+      const vowelsInWord=[...current.word].map((ch,i)=>({ch,i})).filter(x=>vowels.includes(x.ch));
+      $("choices").innerHTML=vowelsInWord.map((v,n)=>`<button class="choice" data-index="${v.i}" aria-label="Гласная ${v.ch.toLocaleUpperCase('ru-RU')}, ${n+1}-я в слове">${v.ch.toLocaleUpperCase('ru-RU')}<small>${n+1}-я</small></button>`).join("");
+      $("choices").querySelectorAll(".choice").forEach(btn=>btn.addEventListener("click",()=>choose(Number(btn.dataset.index))));
+      $("feedback").className="feedback"; $("feedback").textContent="";
+      $("next").disabled=true; $("next").textContent="Ответить";
+      $("hint").textContent="Пропустить нельзя — выбери гласную, чтобы продолжить.";
+      updateProgress();
+    }
+    function choose(pos){
+      if(answered)return; selected=pos;
+      $("choices").querySelectorAll(".choice").forEach(b=>b.classList.toggle("selected",Number(b.dataset.index)===pos));
+      $("next").disabled=false;
+    }
+    function answer(){
+      if(answered){showQuestion();return;} if(selected===null){
+        $("toast").style.display="flex";$("toast").querySelector("span").textContent="Сначала выбери гласную";setTimeout(()=>$("toast").style.display="none",1400);return;
+      }
+      answered=true; const right=selected===current.stress; const stressed=current.word[current.stress].toLocaleUpperCase("ru-RU");
+      $("choices").querySelectorAll(".choice").forEach(b=>{b.disabled=true;if(Number(b.dataset.index)===current.stress)b.classList.add("answer");});
+      $("word").querySelectorAll(".vowel").forEach(el=>{const i=Number(el.dataset.index);if(i===current.stress)el.classList.add("correct");if(i===selected&&!right)el.classList.add("chosen");});
+      if(right){correct++;$("feedback").className="feedback good";$("feedback").textContent="Верно!";}
+      else {wrong++;const old=mistakeCounts.get(current.id)||{count:0,word:current.word,stress};old.count++;mistakeCounts.set(current.id,old);$("feedback").className="feedback bad";$("feedback").innerHTML=`Неверно. Правильно: <b>${accentWord(current.word,current.stress)}</b><span>ударение на «${stressed}»</span>`;}
+      $("next").textContent="Следующее слово →";$("next").disabled=false;$("hint").textContent="Порядок слов каждый раунд меняется.";updateStats();saveActiveProfile();
+    }
+    function accentWord(word,pos){return [...word].map((c,i)=>i===pos?`<span style="text-decoration:overline;text-decoration-thickness:2px">${c}</span>`:c).join("");}
+    function updateProgress(){const n=words.length;$("round-label").textContent=`Раунд ${Math.floor((correct+wrong)/n)+1} · слова перемешаны`;$("seen-label").textContent=`Отвечено: ${correct+wrong}`;$("progress-bar").style.transform=`scaleX(${index/n})`;}
+    function updateStats(){
+      $("correct-count").textContent=correct;$("wrong-count").textContent=wrong;
+      const total=correct+wrong;$("accuracy").textContent=total?`${Math.round(correct/total*100)}%`:"—";
+      const list=[...mistakeCounts.values()].sort((a,b)=>b.count-a.count||a.word.localeCompare(b.word,"ru"));
+      $("empty-mistakes").style.display=list.length?"none":"block";
+      $("mistakes-list").innerHTML=list.map(x=>`<div class="mistake"><span class="mistake-word">${x.word}</span><span class="mistake-meta"><b>${x.count} ${x.count===1?"ошибка":x.count<5?"ошибки":"ошибок"}</b><br>верно: ${accentWord(x.word,x.stress)}</span></div>`).join("");updateProgress();
+    }
+    function reset(){correct=0;wrong=0;mistakeCounts.clear();current=null;nextDeck();updateStats();showQuestion();saveActiveProfile();}
+    function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({profiles,activeId:activeProfileId}));}catch{}}
+    function saveActiveProfile(){
+      const profile=profiles.find(p=>p.id===activeProfileId);if(!profile)return;
+      profile.correct=correct;profile.wrong=wrong;
+      profile.mistakes=[...mistakeCounts.entries()].map(([id,x])=>({id,...x}));profile.lastActivity=new Date().toISOString();saveStorage();
+    }
+    function renderProfiles(){
+      const list=$("profile-list");list.replaceChildren();
+      profiles.forEach(profile=>{
+        const button=document.createElement("button");button.type="button";button.className="profile-item"+(profile.id===activeProfileId?" active":"");
+        const name=document.createElement("strong");name.textContent=profile.name;
+        const info=document.createElement("small");info.textContent=`${(profile.correct||0)+(profile.wrong||0)} ответов · ${profile.wrong||0} ошибок`;
+        button.append(name,info);button.addEventListener("click",()=>activateProfile(profile.id));list.append(button);
+      });
+    }
+    function openProfiles(){renderProfiles();$("profile-error").textContent="";$("profile-dialog").classList.add("open");if(activeProfileId){$("profile-input").focus();}}
+    function activateProfile(id){
+      if(id!==activeProfileId)saveActiveProfile();const profile=profiles.find(p=>p.id===id);if(!profile)return;
+      profile.createdAt=profile.createdAt||new Date().toISOString();profile.lastActivity=new Date().toISOString();profile.status=profile.status||"Зарегистрирован";
+      activeProfileId=id;correct=profile.correct||0;wrong=profile.wrong||0;
+      mistakeCounts.clear();(profile.mistakes||[]).forEach(x=>mistakeCounts.set(x.id,{count:x.count,word:x.word,stress:x.stress}));
+      $("profile-name").textContent=profile.name;$("profile-avatar").textContent=[...profile.name.trim()][0]?.toLocaleUpperCase("ru-RU")||"?";
+      $("profile-dialog").classList.remove("open");current=null;nextDeck();showQuestion();updateStats();saveStorage();
+    }
+    function renderAdmin(){
+      const tbody=$("admin-users");tbody.replaceChildren();
+      const fmt=value=>value?new Intl.DateTimeFormat("ru-RU",{day:"numeric",month:"short",year:"numeric"}).format(new Date(value)):"—";
+      const sorted=[...profiles].sort((a,b)=>new Date(a.createdAt||0)-new Date(b.createdAt||0));
+      const totalAnswers=sorted.reduce((sum,p)=>sum+(p.correct||0)+(p.wrong||0),0);
+      $("admin-user-count").textContent=sorted.length;$("admin-answer-count").textContent=totalAnswers;$("admin-empty").hidden=sorted.length>0;
+      sorted.forEach(profile=>{
+        const answered=(profile.correct||0)+(profile.wrong||0);const row=document.createElement("tr");
+        const values=[profile.name,profile.status||"Зарегистрирован",fmt(profile.createdAt),answered,profile.wrong||0,answered?`${Math.round((profile.correct||0)/answered*100)}%`:"—",fmt(profile.lastActivity)];
+        values.forEach((value,i)=>{const cell=document.createElement("td");if(i===1){const tag=document.createElement("span");tag.className="user-tag";tag.textContent=value;cell.append(tag);}else cell.textContent=value;row.append(cell);});tbody.append(row);
+      });
+    }
+    function switchTab(tab){const admin=tab==="admin";$("trainer-view").style.display=admin?"none":"grid";$("admin-view").classList.toggle("active",admin);$("tab-trainer").classList.toggle("active",!admin);$("tab-admin").classList.toggle("active",admin);if(admin)renderAdmin();}
+    $("tab-trainer").addEventListener("click",()=>switchTab("trainer"));$("tab-admin").addEventListener("click",()=>switchTab("admin"));
+    $("profile-button").addEventListener("click",openProfiles);
+    $("profile-form").addEventListener("submit",event=>{
+      event.preventDefault();const name=$("profile-input").value.trim();
+      if(!name){$("profile-error").textContent="Введи имя или псевдоним.";return;}
+      if(profiles.some(p=>p.name.toLocaleLowerCase("ru-RU")===name.toLocaleLowerCase("ru-RU"))){$("profile-error").textContent="Такое имя уже занято — выбери его в списке.";return;}
+      saveActiveProfile();const profile={id:`p-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,name,correct:0,wrong:0,mistakes:[],createdAt:new Date().toISOString(),lastActivity:null,status:"Зарегистрирован"};profiles.push(profile);$("profile-input").value="";activateProfile(profile.id);
+    });
+    $("next").addEventListener("click",answer);$("reset").addEventListener("click",reset);
+    document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!$("next").disabled)answer();});
+    saveStorage();nextDeck();showQuestion();updateStats();if(activeProfileId&&profiles.some(p=>p.id===activeProfileId))activateProfile(activeProfileId);else{activeProfileId=null;openProfiles();}
+  </script>
+</body>
+</html>
